@@ -3,10 +3,21 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
-function Example({show, handleClose}) {
+function Example({show, handleClose, apps, setApps, drName}) {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
-  console.log(name,date);
+  
+  const handleSubmit = (e) =>{
+    e.preventDefault(); 
+    setApps([...apps, {
+        id: new Date().getTime(),
+        patient: name,
+        day: date,
+        consulted: false,
+       
+    },] )
+    handleClose();
+  }
   return (
     <>
      {/*  <Button variant="primary" onClick={handleShow}>
@@ -15,10 +26,10 @@ function Example({show, handleClose}) {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Appointments for {drName}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <Form>
+        <Form onSubmit={handleSubmit}>
       <Form.Group className="mb-3" controlId="name">
         <Form.Label>Patient Name</Form.Label>
         <Form.Control type="text" placeholder="Enter name" onChange={(e) => setName(e.target.value)} value={name}/>
